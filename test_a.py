@@ -53,7 +53,7 @@ x_center = 0.5*(x_boundary[1:] + x_boundary[:-1])
 
 # boundary condition
 # (reflective bc left)
-bc_right = np.zeros(n_mu/2)
+bc_right = np.zeros(int(n_mu/2))
 
 # xs assignment
 sigma_t = np.zeros(n_x)
