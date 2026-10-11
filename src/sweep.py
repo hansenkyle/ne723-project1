@@ -1,5 +1,11 @@
 import numpy as np
 
+from cornervalues import CornerValues
+from quadrature import Quadrature
+from xs import CrossSection
+
+
+# solve the transport equation in a single cell, single angle, discretized with LD finite elements
 def ldSolve(
         mu : float, 
         dx : float,
@@ -35,3 +41,65 @@ def ldSolve(
         return psi_l, psi_r
     else:
         return psi_r, psi_l
+
+
+# sweep all angles, all cells, given known scattering and external source.
+def sweep(
+    phi : CornerValues,
+    q : np.array,
+    xs : CrossSection,
+    quad : Quadrature,
+    dx : np.array,
+    BC : np.array,
+    lhs_reflective : bool
+):
+
+    M = quad.M
+    I = len(dx)
+    
+    psi = [CornerValues(np.zeros(I), np.zeros(I))]*M
+    phi_new = CornerValues(np.zeros(I), np.zeros(I))
+
+    # for each pair of angles
+        # for each cell
+            # compute cell angular flux and add to vector
+    
+    for m in range(M/2):
+        m_neg = m
+        m_pos = M-(m+1)
+
+        # solve mu<0 angle
+
+        for i in range(I-1, -1, -1):
+            print(f"solving transport equation for mu = {quad.mu[m_neg]} at i = {i}")
+            if i == I-1:
+                psi_in = BC[m_neg]
+            else : 
+                psi_in = psi[m_neg].R[i+1]
+            psi[m_neg].L[i], psi[m_neg].R[i]  = ldSolve(
+                        quad.mu[m_neg], dx[i], psi_in, xs.total[i], 
+                        xs.scatter[i], xs.fission[i], xs.multiplicity[i], 
+                        q[i], (phi.L[i], phi.R[i]))
+
+        phi_new.L += quad.w[m_neg]*psi[m_neg].L
+        phi_new.R += quad.w[m_neg]*psi[m_neg].R
+
+        # solve mu>1 angle
+        for i in range(I):
+            print(f"solving transport equation for mu = {quad.mu[m_pos]} at i = {i}")
+            if i == 0: 
+                if lhs_reflective == True:
+                    psi_in = psi[m_neg].L[0]
+                else:
+                    psi_in = BC[m_pos]
+            else:
+                psi_in = psi[m_pos].R[i-1]
+            psi[m_pos].L[i], psi[m_pos].R[i] = ldSolve(
+                quad.mu[m_pos], dx[i], psi_in, xs.total[i], xs.scatter[i], 
+                xs.fission[i], xs.multiplicity[i], 
+                q[i], (phi.L[i], phi.R[i]))
+
+        phi_new.L += quad.w[m_pos]*psi[m_pos].L
+        phi_new.R += quad.w[m_pos]*psi[m_pos].R
+
+    return psi, phi_new
