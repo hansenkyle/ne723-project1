@@ -6,6 +6,17 @@ from cp1.sweep import sweep
 from cp1.xs import CrossSection
 
 
+class Solution:
+    def __init__(self, phi, psi):
+        self.phi = phi
+        self.psi = psi
+
+class Convergence:
+    def __init__(self, delta, rho):
+        self.delta = delta
+        self.rho = rho
+
+
 # solve the fixed-source problem with source iteration
 def solve_fixed_source(
     epsilon_phi : float,
@@ -36,5 +47,4 @@ def solve_fixed_source(
         rho = np.append(rho, delta[l]/delta[l-1])
         phi = phi_new.copy()
 
-    # compute residuals
-    #
+    return Solution(phi, psi), Convergence(delta, rho)
