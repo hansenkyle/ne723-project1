@@ -1,8 +1,8 @@
 import numpy as np
 
-from cornervalues import CornerValues
-from quadrature import Quadrature
-from xs import CrossSection
+from cp1.cornervalues import CornerValues
+from cp1.quadrature import Quadrature
+from cp1.xs import CrossSection
 
 
 # solve the transport equation in a single cell, single angle, discretized with LD finite elements
@@ -64,14 +64,14 @@ def sweep(
         # for each cell
             # compute cell angular flux and add to vector
     
-    for m in range(M/2):
+    for m in range(int(M/2)):
         m_neg = m
         m_pos = M-(m+1)
 
         # solve mu<0 angle
 
         for i in range(I-1, -1, -1):
-            print(f"solving transport equation for mu = {quad.mu[m_neg]} at i = {i}")
+            # print(f"solving transport equation for mu = {quad.mu[m_neg]} at i = {i}")
             if i == I-1:
                 psi_in = BC[m_neg]
             else : 
@@ -86,7 +86,7 @@ def sweep(
 
         # solve mu>1 angle
         for i in range(I):
-            print(f"solving transport equation for mu = {quad.mu[m_pos]} at i = {i}")
+            # print(f"solving transport equation for mu = {quad.mu[m_pos]} at i = {i}")
             if i == 0: 
                 if lhs_reflective == True:
                     psi_in = psi[m_neg].L[0]
