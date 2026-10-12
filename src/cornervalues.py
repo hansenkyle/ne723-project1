@@ -1,3 +1,6 @@
+import numpy as np
+
+
 class CornerValues:
     def __init__(self, L, R):
         self.L = L
@@ -6,6 +9,13 @@ class CornerValues:
         if len(L) != len(R):
             raise ValueError(f"left and right CV vectors must have equal length (got {len(L)} and {len(R)})")
 
-    def integrate(self, dx: np.array):
-        if (len(dx) != len(self.L)):
-            raise ValueError(f"len(dx) = {len(dx)} incompatible with len(L)=len(R)={len(self.L)}")
+    def __sub__(self, other):
+        if isinstance(other, CornerValues):
+            return CornerValues(self.L - other.L, self.R - other.R)
+        return NotImplemented  # Tells Python it doesn't know how to add this type
+
+    def copy(self):
+        return CornerValues(self.L, self.R)
+    
+    def norm_inf(self):
+        return np.max(np.abs(np.append(self.L, self.R)))
