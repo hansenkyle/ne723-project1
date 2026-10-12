@@ -1,9 +1,8 @@
 import numpy as np
-
-from cornervalues import CornerValues
-from quadrature import Quadrature
-from sweep import sweep
-from xs import CrossSection
+from cp1.cornervalues import CornerValues
+from cp1.quadrature import Quadrature
+from cp1.sweep import sweep
+from cp1.xs import CrossSection
 
 
 # solve the fixed-source problem with source iteration
@@ -18,9 +17,9 @@ def solve_fixed_source(
     lhs_reflective : bool
 ):
     # initialize guess for scalar flux
-    phi = np.copy(phi_initial)
+    phi = phi_initial.copy()
 
-    delta = np.array([0.0])
+    delta = np.array([1.0])
     rho = np.array([1.0])
 
     # while not converged:
