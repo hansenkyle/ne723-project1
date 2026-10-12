@@ -19,3 +19,6 @@ class CornerValues:
     
     def norm_inf(self):
         return np.max(np.abs(np.append(self.L, self.R)))
+    
+    def cell_average(self):
+        return 0.5*(self.L + self.R)
