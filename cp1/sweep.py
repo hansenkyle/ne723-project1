@@ -26,7 +26,7 @@ def ldSolve(
         phi_l = phi[0]
         phi_r = phi[1]
     psi_l = (
-                dx**2 * (q+s_eff*phi_l) 
+                dx**2 * xs_t * (q+s_eff*phi_l) 
                 + (12*m**2 * psi_in) 
                 + (dx*m*(s_eff*(phi_l - phi_r) + 8*xs_t*psi_in))
              )/(
@@ -57,7 +57,7 @@ def sweep(
     M = quad.M
     I = len(dx)
     
-    psi = [CornerValues(np.zeros(I), np.zeros(I))]*M
+    psi = [CornerValues(np.zeros(I), np.zeros(I)) for _ in range(M)]
     phi_new = CornerValues(np.zeros(I), np.zeros(I))
 
     # for each pair of angles
@@ -75,7 +75,7 @@ def sweep(
             if i == I-1:
                 psi_in = BC[m_neg]
             else : 
-                psi_in = psi[m_neg].R[i+1]
+                psi_in = psi[m_neg].L[i+1]
             psi[m_neg].L[i], psi[m_neg].R[i]  = ldSolve(
                         quad.mu[m_neg], dx[i], psi_in, xs.total[i], 
                         xs.scatter[i], xs.fission[i], xs.multiplicity[i], 
