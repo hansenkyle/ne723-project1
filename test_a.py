@@ -36,9 +36,9 @@ Region 5: [6, 8] cm
 
 import numpy as np
 
-from cp1.source_iteration import solve_fixed_source
-from cp1.quadrature import Quadrature
 from cp1.cornervalues import CornerValues
+from cp1.quadrature import Quadrature
+from cp1.source_iteration import solve_fixed_source
 from cp1.xs import CrossSection
 
 # discretization parameters
@@ -108,6 +108,6 @@ phi_initial = CornerValues(np.zeros(n_x), np.zeros(n_x))
 
 
 print("solving test A fixed source problem...")
-solve_fixed_source(epsilon_phi, phi_initial, q, xs, quad, dx, bc, is_reflective)
+solution, convergence = solve_fixed_source(epsilon_phi, phi_initial, q, xs, quad, dx, bc, is_reflective)
 
-
+print(solution.phi.cell_average())

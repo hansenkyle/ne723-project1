@@ -23,6 +23,11 @@ Region 2: [1, 11] cm
 
 import numpy as np
 
+from cp1.cornervalues import CornerValues
+from cp1.quadrature import Quadrature
+from cp1.source_iteration import solve_fixed_source
+from cp1.xs import CrossSection
+
 a = 11
 n_x = 20
 n_mu = 8
@@ -38,10 +43,11 @@ x_center = 0.5*(x_boundary[1:] + x_boundary[:-1])
 
 # angular quadrature
 [mu, w] = np.polynomial.legendre.leggauss(n_mu)
+quad = Quadrature(mu, w)
 
 # boundary condition
-bc_left = np.ones(int(n_mu/2))
-bc_right = np.zeros(int(n_mu/2))
+bc = np.zeros(n_mu)
+bc[mu>0] = 1.0
 
 # xs assignment
 sigma_t = np.zeros(n_x)
@@ -51,10 +57,19 @@ nu = np.zeros(n_x)
 q = np.zeros(n_x)
 
 # Region 1
-range = np.nonzero((x_center < 1))
+range = np.nonzero(x_center < 1)
 sigma_t[range] = 2
 # Region 2
-range = np.nonzero((x_center > 1))
+range = np.nonzero(x_center > 1)
 sigma_t[range] = 100
 sigma_s[range] = 100
+
+xs = CrossSection(sigma_t, sigma_s, 0*sigma_s, 0*sigma_s)
+
+
+phi_initial = CornerValues(np.zeros(n_x), np.zeros(n_x))
+
+
+print("solving test A fixed source problem...")
+solution, convergence = solve_fixed_source(epsilon_phi, phi_initial, q, xs, quad, dx, bc, is_reflective)
 
