@@ -1,4 +1,5 @@
 import numpy as np
+
 from cp1.cornervalues import CornerValues
 from cp1.quadrature import Quadrature
 from cp1.sweep import sweep
