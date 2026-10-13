@@ -14,6 +14,11 @@ class CornerValues:
             return CornerValues(self.L - other.L, self.R - other.R)
         return NotImplemented  # Tells Python it doesn't know how to add this type
 
+    def __truediv__(self, scalar):
+        if isinstance(scalar, float):
+            return CornerValues(self.L/scalar, self.R/scalar)
+        return NotImplemented  # Tells Python it doesn't know how to add this type
+
     def copy(self):
         return CornerValues(self.L, self.R)
     
@@ -22,3 +27,5 @@ class CornerValues:
     
     def cell_average(self):
         return 0.5*(self.L + self.R)
+    def first_moment(self):
+        return 0.5*(self.R - self.L)
