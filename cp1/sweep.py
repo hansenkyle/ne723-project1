@@ -1,4 +1,5 @@
 import numpy as np
+from numba import njit
 
 from cp1.cornervalues import CornerValues
 from cp1.quadrature import Quadrature
@@ -6,6 +7,7 @@ from cp1.xs import CrossSection
 
 
 # solve the transport equation in a single cell, single angle, discretized with LD finite elements
+@njit
 def ldSolve(
         mu : float, 
         dx : float,
@@ -44,6 +46,7 @@ def ldSolve(
 
 
 # sweep all angles, all cells, given known scattering and external source.
+@njit
 def sweep(
     phi : CornerValues,
     q : np.array,

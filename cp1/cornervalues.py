@@ -1,8 +1,17 @@
 import numpy as np
+from numba.experimental import jitclass
+from numba import float64
 
+# 1. Define the specifications for your arrays.
+# Format: type[colon_dimensions] -> float64[:] means 1D float array, int32[:,:] means 2D int array
+spec = [
+    ('L', float64[:]),     # 1D array of floats
+    ('R', float64[:]),  # 2D array of floats
+]
 
+@jitclass(spec)
 class CornerValues:
-    def __init__(self, L, R):
+    def __init__(self, L : np.ndarray, R: np.ndarray):
         self.L = L
         self.R = R
 
@@ -12,12 +21,10 @@ class CornerValues:
     def __sub__(self, other):
         if isinstance(other, CornerValues):
             return CornerValues(self.L - other.L, self.R - other.R)
-        return NotImplemented  # Tells Python it doesn't know how to add this type
 
     def __truediv__(self, scalar):
         if isinstance(scalar, float):
             return CornerValues(self.L/scalar, self.R/scalar)
-        return NotImplemented  # Tells Python it doesn't know how to add this type
 
     def copy(self):
         return CornerValues(self.L, self.R)

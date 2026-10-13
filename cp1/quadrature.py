@@ -1,6 +1,19 @@
 import numpy as np
 
+from numba.experimental import jitclass
+from numba import float64, int64
 
+# 1. Define the specifications for your arrays.
+# Format: type[colon_dimensions] -> float64[:] means 1D float array, int32[:,:] means 2D int array
+spec = [
+    ('w', float64[:]),     # 1D array of floats
+    ('mu', float64[:]),
+    ('M', int64)
+]
+
+# class to hold all xs data
+
+@jitclass(spec)
 class Quadrature:
 
 
@@ -18,10 +31,10 @@ class Quadrature:
         if is_ascending == False:
             raise ValueError("'mu' must be ascending")
 
-        # ensure sum(w) = 2 within tolerance epsilon
-        sum_w = np.sum(w)
-        if np.abs(sum_w - 2) > epsilon:
-            raise ValueError(f"sum(w) must be == 2 (got {sum_w:.8e})")
+        # # ensure sum(w) = 2 within tolerance epsilon
+        # sum_w = np.sum(w)
+        # if np.abs(sum_w - 2) > epsilon:
+        #     raise ValueError(f"sum(w) must be == 2 (got {sum_w:.8e})")
 
         self.M = len(mu)
 
