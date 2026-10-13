@@ -1,0 +1,14 @@
+cp1/source_iteration.py
+  h_250041054ad857 109-110,113
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "578f90cbcb389f43d5876f60ce085ba8fed8864d",
+  "prompts": {},
+  "humans": {
+    "h_250041054ad857": {
+      "author": "Kyle Hansen <hansen.kyle16@gmail.com>"
+    }
+  }
+}
