@@ -1,0 +1,14 @@
+cp1/cornervalues.py
+  h_250041054ad857 17-21,29-31
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "e1a8000e9fa238bc22116747bde395e9888fa57c",
+  "prompts": {},
+  "humans": {
+    "h_250041054ad857": {
+      "author": "Kyle Hansen <hansen.kyle16@gmail.com>"
+    }
+  }
+}
