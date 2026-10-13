@@ -1,0 +1,20 @@
+cp1/sweep.py
+  s_5b9b97d08f3eb9::t_b3454ef1bfd985 100
+  s_5b9b97d08f3eb9::t_11b43f61c122d0 54-55,82
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "ade2227220971e7c5f923081e5c3a85ed06b278b",
+  "prompts": {},
+  "sessions": {
+    "s_5b9b97d08f3eb9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c06e0c03-02a2-4ac0-bc67-401a64d19486",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Kyle Hansen <hansen.kyle16@gmail.com>"
+    }
+  }
+}
