@@ -2,11 +2,9 @@ import numpy as np
 from numba.experimental import jitclass
 from numba import float64
 
-# 1. Define the specifications for your arrays.
-# Format: type[colon_dimensions] -> float64[:] means 1D float array, int32[:,:] means 2D int array
 spec = [
-    ('L', float64[:]),     # 1D array of floats
-    ('R', float64[:]),  # 2D array of floats
+    ('L', float64[:]), 
+    ('R', float64[:])
 ]
 
 @jitclass(spec)
