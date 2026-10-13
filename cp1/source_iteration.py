@@ -93,28 +93,18 @@ def solve_fixed_source(
         - (np.longdouble(xs.scatter) + (np.longdouble(xs.fission) * np.longdouble(xs.multiplicity)))*np.longdouble(cell_average_scalar_old)*np.longdouble(dx) \
         - np.longdouble(q*dx)
 
-    print("scheme, balance")
-    print(scheme_balance)
-
     scheme_firstmoment = 3*np.longdouble(cell_edge_current[1:]) + 3*np.longdouble(cell_edge_current[:-1]) - 6*np.longdouble(cell_average_current) \
         + np.longdouble(xs.total)*np.longdouble(legendre_scalar)*np.longdouble(dx) \
         - (np.longdouble(xs.scatter) + np.longdouble(xs.fission)*np.longdouble(xs.multiplicity))*np.longdouble(legendre_scalar_old)*np.longdouble(dx)
 
-    print("scheme, first moment")
-    print(scheme_firstmoment)
 
     iterative_balance = np.longdouble(cell_edge_current[1:]) - np.longdouble(cell_edge_current[:-1]) \
         + (np.longdouble(xs.total)- np.longdouble(xs.scatter + (xs.fission * xs.multiplicity)))*np.longdouble(cell_average_scalar)*np.longdouble(dx) \
         - np.longdouble(q*dx)
-    
-    print("iterative, balance")
-    print(iterative_balance)
 
     iterative_firstmoment = 3*np.longdouble(cell_edge_current[1:]) + 3*np.longdouble(cell_edge_current[:-1]) - 6*np.longdouble(cell_average_current) \
         + np.longdouble(xs.total - xs.scatter - (xs.fission * xs.multiplicity))*np.longdouble(legendre_scalar)*np.longdouble(dx)
     
-    print("iterative, first moment")
-    print(iterative_firstmoment)
 
     scheme_residuals = Residuals(scheme_balance, scheme_firstmoment)
     iterative_residuals = Residuals(iterative_balance, iterative_firstmoment)
