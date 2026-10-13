@@ -1,0 +1,66 @@
+test_a/test_a_cell_average_angular.svg
+  h_250041054ad857 1-2166
+test_a/test_a_cell_average_scalar.svg
+  h_250041054ad857 1-1139
+test_a/test_a_current_edge.svg
+  h_250041054ad857 1-1121
+test_a/test_a_iterative_error.svg
+  h_250041054ad857 1-1449
+test_a/test_a_iterativeresid_firstmoment.svg
+  h_250041054ad857 1-1297
+test_a/test_a_iterativeresid_firstmoment_linscale.svg
+  h_250041054ad857 1-1363
+test_a/test_a_iterativeresidu_balance.svg
+  h_250041054ad857 1-1205
+test_a/test_a_iterativeresidu_balance_linscale.svg
+  h_250041054ad857 1-1234
+test_a/test_a_scalar_edge.svg
+  h_250041054ad857 1-1173
+test_a/test_a_scalar_moment.svg
+  h_250041054ad857 1-1307
+test_a/test_a_schemeresid_balance.svg
+  h_250041054ad857 1-1354
+test_a/test_a_schemeresid_firstmoment.svg
+  h_250041054ad857 1-1375
+test_a/test_a_spectral_radius.svg
+  h_250041054ad857 1-1148
+test_c/test_c_a_crit.svg
+  h_250041054ad857 1-1140
+test_c/test_c_cell_average_angular.svg
+  h_250041054ad857 1-2256
+test_c/test_c_cell_average_scalar.svg
+  h_250041054ad857 1-1159
+test_c/test_c_current_edge.svg
+  h_250041054ad857 1-1037
+test_c/test_c_iterative_error.svg
+  h_250041054ad857 1-1332
+test_c/test_c_iterativeresid_firstmoment.svg
+  h_250041054ad857 1-1321
+test_c/test_c_iterativeresid_firstmoment_linscale.svg
+  h_250041054ad857 1-1283
+test_c/test_c_iterativeresidu_balance.svg
+  h_250041054ad857 1-1147
+test_c/test_c_iterativeresidu_balance_linscale.svg
+  h_250041054ad857 1-1112
+test_c/test_c_scalar_edge.svg
+  h_250041054ad857 1-1214
+test_c/test_c_scalar_moment.svg
+  h_250041054ad857 1-1272
+test_c/test_c_schemeresid_balance.svg
+  h_250041054ad857 1-1194
+test_c/test_c_schemeresid_firstmoment.svg
+  h_250041054ad857 1-1442
+test_c/test_c_spectral_radius.svg
+  h_250041054ad857 1-1411
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "bcb82292a760d6b1f701c1dba8f0386468af339f",
+  "prompts": {},
+  "humans": {
+    "h_250041054ad857": {
+      "author": "Kyle Hansen <hansen.kyle16@gmail.com>"
+    }
+  }
+}
