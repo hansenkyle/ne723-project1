@@ -7,12 +7,15 @@ from cp1.xs import CrossSection
 
 
 class Solution:
-    def __init__(self, phi, psi):
+    def __init__(self, phi, psi, phi_edge, J_edge):
         self.phi = phi
         self.psi = psi
+        self.phi_edge = phi_edge
+        self.J_edge = J_edge
 
 class Convergence:
-    def __init__(self, delta, rho):
+    def __init__(self, N_iter, delta, rho):
+        self.N_iter = N_iter
         self.delta = delta
         self.rho = rho
 
@@ -31,7 +34,8 @@ def solve_fixed_source(
     quad : Quadrature,
     dx : np.array,
     BC : np.array,
-    lhs_reflective : bool
+    lhs_reflective : bool,
+    update_interval = 1
 ):
     # initialize guess for scalar flux
     phi = phi_initial.copy()
@@ -43,7 +47,8 @@ def solve_fixed_source(
     l = 0
     while (delta[-1] > (epsilon_phi * ((1/rho[-1]) - 1))):
         l += 1
-        print(f"Iteration {l}...")
+        if l% update_interval == 0:
+            print(f"Iteration {l}...")
         # solve for angular and scalar flux given known scattering source
         psi, phi_new = sweep(phi, q, xs, quad, dx, BC, lhs_reflective)
 
@@ -55,8 +60,6 @@ def solve_fixed_source(
         
         phi_old = phi.copy()
         phi = phi_new.copy()
-
-        print(f"finished iteration {l}; Delta = {delta[-1]:.4e}, rho = {rho[-1]:.4e}")
 
     # cell-average angular flux
     cell_average_angular = np.array([psi_m.cell_average() for psi_m in psi])
@@ -78,8 +81,8 @@ def solve_fixed_source(
     cell_average_scalar = np.transpose(cell_average_angular) @ quad.w
     cell_edge_scalar = np.transpose(cell_edge_angular) @ quad.w
     cell_average_scalar_old = phi_old.cell_average()
-    legendre_scalar_old = 0.5*(phi_old.R - phi_old.L)
-    legendre_scalar = 0.5*(phi.R - phi.L)
+    legendre_scalar_old = phi_old.first_moment()
+    legendre_scalar = phi.first_moment()
     cell_average_current = np.transpose(cell_average_angular) @ (quad.w * quad.mu)
     cell_edge_current = np.transpose(cell_edge_angular) @ (quad.w * quad.mu)
     legendre_current = np.transpose(legendre_angular) @ (quad.w * quad.mu)
@@ -90,24 +93,31 @@ def solve_fixed_source(
         - (np.longdouble(xs.scatter) + (np.longdouble(xs.fission) * np.longdouble(xs.multiplicity)))*np.longdouble(cell_average_scalar_old)*np.longdouble(dx) \
         - np.longdouble(q*dx)
 
+    print("scheme, balance")
+    print(scheme_balance)
 
     scheme_firstmoment = 3*np.longdouble(cell_edge_current[1:]) + 3*np.longdouble(cell_edge_current[:-1]) - 6*np.longdouble(cell_average_current) \
         + np.longdouble(xs.total)*np.longdouble(legendre_scalar)*np.longdouble(dx) \
         - (np.longdouble(xs.scatter) + np.longdouble(xs.fission)*np.longdouble(xs.multiplicity))*np.longdouble(legendre_scalar_old)*np.longdouble(dx)
 
-
+    print("scheme, first moment")
+    print(scheme_firstmoment)
 
     iterative_balance = np.longdouble(cell_edge_current[1:]) - np.longdouble(cell_edge_current[:-1]) \
         + (np.longdouble(xs.total)- np.longdouble(xs.scatter + (xs.fission * xs.multiplicity)))*np.longdouble(cell_average_scalar)*np.longdouble(dx) \
         - np.longdouble(q*dx)
+    
+    print("iterative, balance")
+    print(iterative_balance)
 
-
-    iterative_firstmoment = 3*np.longdouble(cell_edge_current[1:] + cell_edge_current[:-1] - 2*cell_average_current) \
+    iterative_firstmoment = 3*np.longdouble(cell_edge_current[1:]) + 3*np.longdouble(cell_edge_current[:-1]) - 6*np.longdouble(cell_average_current) \
         + np.longdouble(xs.total - xs.scatter - (xs.fission * xs.multiplicity))*np.longdouble(legendre_scalar)*np.longdouble(dx)
-
+    
+    print("iterative, first moment")
+    print(iterative_firstmoment)
 
     scheme_residuals = Residuals(scheme_balance, scheme_firstmoment)
     iterative_residuals = Residuals(iterative_balance, iterative_firstmoment)
 
 
-    return Solution(phi, psi), Convergence(delta, rho), scheme_residuals, iterative_residuals
+    return Solution(phi, psi, cell_edge_scalar, cell_edge_current), Convergence(l, delta, rho), scheme_residuals, iterative_residuals
