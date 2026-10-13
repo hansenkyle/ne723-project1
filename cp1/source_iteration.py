@@ -41,7 +41,7 @@ def solve_fixed_source(
 
     # while not converged:
     l = 0
-    while (delta[-1] > (epsilon_phi * ((1/rho[-1]) - 1)) or l<3):
+    while (delta[-1] > (epsilon_phi * ((1/rho[-1]) - 1))):
         l += 1
         print(f"Iteration {l}...")
         # solve for angular and scalar flux given known scattering source
