@@ -78,7 +78,6 @@ def solve_eigenvalue(
             else:
                 cell_edge_angular[m, 0] = BC[m]
 
-    legendre_angular = np.array([0.75*(psi_m.R - psi_m.L)/dx for psi_m in psi])
 
     cell_average_scalar = np.transpose(cell_average_angular) @ quad.w
     cell_edge_scalar = np.transpose(cell_edge_angular) @ quad.w
@@ -87,7 +86,6 @@ def solve_eigenvalue(
     legendre_scalar = phi.first_moment()
     cell_average_current = np.transpose(cell_average_angular) @ (quad.w * quad.mu)
     cell_edge_current = np.transpose(cell_edge_angular) @ (quad.w * quad.mu)
-    legendre_current = np.transpose(legendre_angular) @ (quad.w * quad.mu)
 
     # calculate residuals
     scheme_balance = np.longdouble(cell_edge_current[1:]) - np.longdouble(cell_edge_current[:-1]) \
