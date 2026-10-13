@@ -1,0 +1,21 @@
+test_c.py
+  s_5b9b97d08f3eb9::t_f180b590445bc0 82
+  s_5b9b97d08f3eb9::t_aa409a7e6e8116 79-81
+  s_5b9b97d08f3eb9::t_c1394897b95012 83-85
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "736a2d4ff2d26658bc73196889a93473adc9ced4",
+  "prompts": {},
+  "sessions": {
+    "s_5b9b97d08f3eb9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c06e0c03-02a2-4ac0-bc67-401a64d19486",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Kyle Hansen <hansen.kyle16@gmail.com>"
+    }
+  }
+}
