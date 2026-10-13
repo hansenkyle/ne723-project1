@@ -106,11 +106,8 @@ def solve_fixed_source(
         + np.longdouble(xs.total - xs.scatter - (xs.fission * xs.multiplicity))*np.longdouble(legendre_scalar)*np.longdouble(dx)
 
 
+    scheme_residuals = Residuals(scheme_balance, scheme_firstmoment)
+    iterative_residuals = Residuals(iterative_balance, iterative_firstmoment)
 
 
-    
-    # scheme residuals
-
-    # iterative residuals
-
-    return Solution(phi, psi), Convergence(delta, rho)
+    return Solution(phi, psi), Convergence(delta, rho), scheme_residuals, iterative_residuals
