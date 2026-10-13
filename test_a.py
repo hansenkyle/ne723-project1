@@ -94,7 +94,7 @@ sigma_f[range] = 0.1
 nu[range] = 2
 
 # Region 5
-range = np.nonzero((x_center > 6))
+range = np.nonzero(x_center > 6)
 sigma_t[range] = 1.1
 sigma_s[range] = 0.5
 sigma_f[range] = 0.16
