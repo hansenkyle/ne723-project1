@@ -51,7 +51,8 @@ def sweep(
     quad : Quadrature,
     dx : np.array,
     BC : np.array,
-    lhs_reflective : bool
+    lhs_reflective : bool,
+    k=1
 ):
 
     M = quad.M
@@ -78,7 +79,7 @@ def sweep(
                 psi_in = psi[m_neg].L[i+1]
             psi[m_neg].L[i], psi[m_neg].R[i]  = ldSolve(
                         quad.mu[m_neg], dx[i], psi_in, xs.total[i], 
-                        xs.scatter[i], xs.fission[i], xs.multiplicity[i], 
+                        xs.scatter[i], xs.fission[i], xs.multiplicity[i]/k, 
                         q[i], (phi.L[i], phi.R[i]))
 
         phi_new.L += quad.w[m_neg]*psi[m_neg].L
@@ -96,7 +97,7 @@ def sweep(
                 psi_in = psi[m_pos].R[i-1]
             psi[m_pos].L[i], psi[m_pos].R[i] = ldSolve(
                 quad.mu[m_pos], dx[i], psi_in, xs.total[i], xs.scatter[i], 
-                xs.fission[i], xs.multiplicity[i], 
+                xs.fission[i], xs.multiplicity[i]/k, 
                 q[i], (phi.L[i], phi.R[i]))
 
         phi_new.L += quad.w[m_pos]*psi[m_pos].L
